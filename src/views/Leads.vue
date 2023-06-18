@@ -47,7 +47,6 @@
 	const navigateToGame = (id) => {
 		router.push({ name: 'eachGame', params: { id } });
 	};
-	console.log('🚀 ~ file: Game.vue:50 ~ navigateToGame ~ router:', router);
 </script>
 
 <style></style>

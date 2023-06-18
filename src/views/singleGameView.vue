@@ -1,6 +1,6 @@
 <template>
 	<div class="card w-full bg-base-100 shadow-xl">
-		<div class="card-body">
+		<!-- <div class="card-body">
 			<div class="flex">
 				<h2 class="card-title">{{ lead[0].lead_origin }}</h2>
 				<h2 class="m-auto text-left card-title">{{ lead[0].when }}</h2>
@@ -16,49 +16,43 @@
 			<p>Details</p>
 			<span>{{ lead[0].details }}</span>
 		</div>
-		<button class="btn btn-error" @click="deleteBtn(lead[0].id)">Delete</button>
+		<button class="btn btn-error" @click="deleteBtn(lead[0].id)">Delete</button> -->
+		hello
+		<h2 class="card-title">{{ leads }}</h2>
 	</div>
 </template>
 
-<script>
+<script setup>
 	import { useRoute, useRouter } from 'vue-router';
 	import { useLeads } from '../stores/leads.js';
-	import { mapStores } from 'pinia';
-	const { leads } = useLeads();
+	import { storeToRefs } from 'pinia';
+	import { onMounted, ref, watch } from 'vue';
+	const { deleteLead } = useLeads();
+	const router = useRouter();
 	const route = useRoute();
+	const leadStore = useLeads();
+	const { leads } = storeToRefs(leadStore);
 
-	export default {
-		data() {
-			return {
-				lead: [],
-			};
-		},
-		methods: {
-			async deleteBtn(id) {
-				const { deleteLead } = useLeads();
-				const router = useRouter();
-				const res = await deleteLead(id);
-				if (res === 204) {
-					console.log('Deleted...');
-					router.push({ name: 'home' });
-				}
-			},
-			filterLeadas() {
-				// this.lead = leads.filter((approach) => {
-				// 	return approach.id == route.params.id;
-				// });
-			},
-		},
-		computed: {
-			// note we are not passing an array, just one store after the other
-			// each store will be accessible as its id + 'Store'
-			...mapStores(useLeads),
-		},
-		async mounted() {
-			// this.filterLeadas();
-			console.log(leads);
-		},
+	const lead = ref([]);
+
+	const deleteBtn = async (id) => {
+		const res = await deleteLead(id);
+		if (res === 204) {
+			console.log('Deleted...');
+			router.push({ name: 'home' });
+		}
 	};
+	const filterLeads = () => {
+		console.log(
+			'🚀 ~ file: singleGameView.vue:47 ~ filterLeads ~ rawObject:',
+			rawObject
+		);
+		console.log(leads.value);
+	};
+
+	onMounted(() => {
+		filterLeads();
+	});
 </script>
 
 <style></style>

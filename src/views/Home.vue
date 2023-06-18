@@ -24,7 +24,7 @@
 
 <script setup>
 	import Dates from '../views/Dates.vue';
-	import Game from '../views/Game.vue';
+	import Game from './Leads.vue';
 	import PlusButton from '../components/PlusButton.vue';
 	import { ref } from 'vue';
 	const tab = ref('game');
