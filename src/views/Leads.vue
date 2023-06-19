@@ -47,6 +47,9 @@
 	const navigateToGame = (id) => {
 		router.push({ name: 'eachGame', params: { id } });
 	};
+	onMounted(async () => {
+		await leadStore.getAllLeads();
+	});
 </script>
 
 <style></style>

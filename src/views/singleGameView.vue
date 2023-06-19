@@ -1,24 +1,25 @@
 <template>
-	<div class="card w-full bg-base-100 shadow-xl">
-		<!-- <div class="card-body">
+	<div class="card w-full bg-base-100 shadow-xl" v-if="!loading">
+		<div class="card-body">
 			<div class="flex">
-				<h2 class="card-title">{{ lead[0].lead_origin }}</h2>
-				<h2 class="m-auto text-left card-title">{{ lead[0].when }}</h2>
+				<h2 class="card-title">{{ filteredLead.lead_origin }}</h2>
+				<h2 class="m-auto text-left card-title">{{ filteredLead.when }}</h2>
 			</div>
 			<p>Did you get the number?</p>
-			<span>{{ lead[0].number }}</span>
+			<span>{{ filteredLead.number }}</span>
 			<p>How did you meet?</p>
-			<span>{{ lead[0].meet }}</span>
+			<span>{{ filteredLead.meet }}</span>
 			<p>Type of game?</p>
-			<span>{{ lead[0].type }}</span>
+			<span>{{ filteredLead.type }}</span>
 			<p>Where was the approach</p>
-			<span>{{ lead[0].where }}</span>
+			<span>{{ filteredLead.where }}</span>
 			<p>Details</p>
-			<span>{{ lead[0].details }}</span>
+			<span>{{ filteredLead.details }}</span>
 		</div>
-		<button class="btn btn-error" @click="deleteBtn(lead[0].id)">Delete</button> -->
-		hello
-		<h2 class="card-title">{{ leads }}</h2>
+		<button class="btn btn-error mb-2" @click="deleteBtn(filteredLead.id)">
+			Delete
+		</button>
+		<button class="btn btn-warning">Edit</button>
 	</div>
 </template>
 
@@ -26,14 +27,13 @@
 	import { useRoute, useRouter } from 'vue-router';
 	import { useLeads } from '../stores/leads.js';
 	import { storeToRefs } from 'pinia';
-	import { onMounted, ref, watch } from 'vue';
+	import { ref, onMounted, computed } from 'vue';
 	const { deleteLead } = useLeads();
 	const router = useRouter();
 	const route = useRoute();
 	const leadStore = useLeads();
 	const { leads } = storeToRefs(leadStore);
-
-	const lead = ref([]);
+	const loading = ref(true); // initialize a loading state
 
 	const deleteBtn = async (id) => {
 		const res = await deleteLead(id);
@@ -42,16 +42,15 @@
 			router.push({ name: 'home' });
 		}
 	};
-	const filterLeads = () => {
-		console.log(
-			'🚀 ~ file: singleGameView.vue:47 ~ filterLeads ~ rawObject:',
-			rawObject
-		);
-		console.log(leads.value);
-	};
 
-	onMounted(() => {
-		filterLeads();
+	const leadId = route.params.id;
+	const filteredLead = computed(() => {
+		return leads.value?.find((lead) => lead.id == leadId);
+	});
+
+	onMounted(async () => {
+		await leadStore.getAllLeads();
+		loading.value = false;
 	});
 </script>
 

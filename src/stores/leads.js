@@ -55,7 +55,7 @@ export const useLeads = () => {
 	};
 
 	// Call the getAllLeads action when the store is instantiated
-	getAllLeads();
+	// getAllLeads();
 
 	return {
 		leads,
