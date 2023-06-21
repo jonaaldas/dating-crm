@@ -97,6 +97,8 @@
 	import { useLeads } from '../stores/leads.js';
 	import { storeToRefs } from 'pinia';
 	import { ref, onMounted, computed, reactive, watch } from 'vue';
+	import { useToast } from 'vue-toast-notification';
+	import 'vue-toast-notification/dist/theme-bootstrap.css';
 	const { deleteLead, editLead } = useLeads();
 	const router = useRouter();
 	const route = useRoute();
@@ -104,6 +106,7 @@
 	const { leads } = storeToRefs(leadStore);
 	const loading = ref(true); // initialize a loading state
 	const lead = ref([]);
+	const toast = useToast();
 
 	const deleteBtn = async (id) => {
 		const res = await deleteLead(id);
@@ -123,6 +126,7 @@
 		const res = await editLead(id, lead.value);
 		if (res === 204) {
 			console.log('Edited...');
+			toast.success('Edited');
 		}
 	};
 
