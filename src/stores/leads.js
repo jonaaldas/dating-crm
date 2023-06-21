@@ -54,8 +54,21 @@ export const useLeads = () => {
 		return leads.length;
 	};
 
-	// Call the getAllLeads action when the store is instantiated
-	// getAllLeads();
+	const editLead = async (id, lead) => {
+		console.log('🚀 ~ file: leads.js:58 ~ editLead ~ id:', id);
+		console.log('🚀 ~ file: leads.js:58 ~ editLead ~ lead:', lead);
+		const { error, status } = await supabase
+			.from('Leads')
+			.update(lead)
+			.eq('id', id);
+		if (status === 204) {
+			console.log('🚀 ~ deleteLead ~ status:', status);
+			return status;
+		} else {
+			console.log('🚀 ~ deleteLead ~ error:', error);
+			return error;
+		}
+	};
 
 	return {
 		leads,
@@ -63,5 +76,6 @@ export const useLeads = () => {
 		addNewLead,
 		deleteLead,
 		getLeadsCount,
+		editLead,
 	};
 };
