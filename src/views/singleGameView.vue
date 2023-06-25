@@ -1,5 +1,6 @@
 <template>
 	<div class="card w-full bg-base-100 shadow-xl" v-if="!loading">
+		<button class="btn btn-secondary" @click="goBackHome()">Back</button>
 		<div class="card-body">
 			<div class="flex">
 				<h2 class="card-title">{{ lead.lead_origin }}</h2>
@@ -113,6 +114,7 @@
 		if (res === 204) {
 			console.log('Deleted...');
 			router.push({ name: 'home' });
+			toast.success('Deleted');
 		}
 	};
 
@@ -127,7 +129,13 @@
 		if (res === 204) {
 			console.log('Edited...');
 			toast.success('Edited');
+		} else {
+			toast.success(res.message);
 		}
+	};
+
+	const goBackHome = () => {
+		router.push({ name: 'home' });
 	};
 
 	onMounted(async () => {

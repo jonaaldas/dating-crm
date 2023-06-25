@@ -18,10 +18,13 @@
 					<h3 class="font-bold text-lg">Add towards your progress</h3>
 					<div>
 						<input
-							type="text"
-							placeholder="When"
-							v-model="newLead.when"
 							class="input input-bordered w-full max-w-xs m-2"
+							type="date"
+							id="start"
+							name="trip-start"
+							:value="new Date().toISOString().substr(0, 10)"
+							@input="handleDate($event.target.value)"
+							required
 						/>
 						<select
 							class="select select-bordered w-full max-w-xs m-3"
@@ -85,7 +88,7 @@
 
 	const { addNewLead } = useLeads();
 
-	const newLead = ref({
+	let newLead = ref({
 		id: '',
 		where: '',
 		when: '',
@@ -96,8 +99,14 @@
 		date: false,
 	});
 
+	const date = ref('');
+
 	const addNew = () => {
 		addNewLead(newLead.value);
+	};
+	const handleDate = (dateInput) => {
+		date.value = dateInput;
+		newLead.value.when = dateInput;
 	};
 </script>
 

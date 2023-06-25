@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '../views/Home.vue';
+import singleDateView from '../views/singleDateView.vue';
 import singleGameView from '../views/singleGameView.vue';
 
 const router = createRouter({
@@ -14,6 +15,11 @@ const router = createRouter({
 			path: '/game/:id',
 			name: 'eachGame',
 			component: singleGameView,
+		},
+		{
+			path: '/date/:id',
+			name: 'eachDate',
+			component: singleDateView,
 		},
 	],
 });
